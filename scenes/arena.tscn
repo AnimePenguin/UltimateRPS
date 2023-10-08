@@ -1,0 +1,87 @@
+[gd_scene load_steps=6 format=3 uid="uid://d3miq3d17xy5y"]
+
+[ext_resource type="Script" path="res://scripts/arena.gd" id="1_avgvf"]
+[ext_resource type="PackedScene" uid="uid://drvs1ma7n2pds" path="res://scenes/options_panel.tscn" id="2_l5oyo"]
+
+[sub_resource type="Animation" id="Animation_tijss"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_tupqx"]
+resource_name = "move_up"
+length = 3.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(3, 3.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(10, 1024), Vector2(10, 969)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v0dps"]
+_data = {
+"RESET": SubResource("Animation_tijss"),
+"move_up": SubResource("Animation_tupqx")
+}
+
+[node name="Arena" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_avgvf")
+metadata/_edit_lock_ = true
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.12549)
+metadata/_edit_lock_ = true
+
+[node name="Units" type="Node2D" parent="."]
+process_mode = 1
+
+[node name="OptionsPanel" parent="." instance=ExtResource("2_l5oyo")]
+visible = false
+layout_mode = 1
+offset_top = -202.5
+offset_bottom = 202.5
+
+[node name="InfoLabel" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_right = 478.0
+offset_bottom = 53.0006
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 36
+text = "Press Esc for Options Menu"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="InfoLabel"]
+autoplay = "move_up"
+libraries = {
+"": SubResource("AnimationLibrary_v0dps")
+}
+
+[connection signal="changed_bg_style" from="OptionsPanel" to="." method="_on_options_panel_changed_bg_style"]
+[connection signal="clear" from="OptionsPanel" to="." method="_on_options_panel_clear"]
+[connection signal="collision_changed" from="OptionsPanel" to="." method="_on_options_panel_restart"]
+[connection signal="restart" from="OptionsPanel" to="." method="_on_options_panel_restart"]

@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://gxnq3rug4u56"]
+
+[ext_resource type="Script" path="res://scripts/unit.gd" id="1_xo8nq"]
+[ext_resource type="Shape2D" uid="uid://bm4465oitlna2" path="res://assets/unit_collision_shape.tres" id="2_u3to4"]
+[ext_resource type="FontFile" uid="uid://bfq0mg5suoiv2" path="res://assets/NotoColorEmoji-Regular.ttf" id="2_vq6dy"]
+[ext_resource type="AudioStream" uid="uid://crpqct5ivaqjg" path="res://assets/munch.wav" id="3_oj5x5"]
+
+[node name="Unit" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_xo8nq")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+shape = ExtResource("2_u3to4")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape" type="CollisionShape2D" parent="Area2D"]
+shape = ExtResource("2_u3to4")
+
+[node name="Emoji" type="Label" parent="."]
+offset_left = -33.0
+offset_top = -37.0
+offset_right = 42.0
+offset_bottom = 37.0
+theme_override_fonts/font = ExtResource("2_vq6dy")
+theme_override_font_sizes/font_size = 60
+
+[node name="Cooldown" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="MunchSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_oj5x5")
+volume_db = -5.0
